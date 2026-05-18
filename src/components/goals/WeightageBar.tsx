@@ -1,0 +1,1 @@
+export const WeightageBar = () => <div>WeightageBar</div>;

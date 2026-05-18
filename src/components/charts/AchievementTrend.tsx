@@ -1,0 +1,1 @@
+export const AchievementTrend = () => <div>AchievementTrend</div>;

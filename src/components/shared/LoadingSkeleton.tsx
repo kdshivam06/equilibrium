@@ -1,0 +1,1 @@
+export const LoadingSkeleton = () => <div>LoadingSkeleton</div>;

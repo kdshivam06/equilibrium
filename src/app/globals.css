@@ -1,26 +1,273 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-headline);
+  --font-label: var(--font-label);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Neon Tokyo — Midnight Cyber Design System */
+  --color-neon-pink: #ff4c83;
+  --color-neon-cyan: #24ffcd;
+  --color-neon-yellow: #e3c630;
+  --color-surface-dim: #101129;
+  --color-surface-container: #1d1d36;
+  --color-surface-container-low: #191932;
+  --color-surface-container-high: #272741;
+  --color-surface-container-highest: #32324d;
+  --color-surface-container-lowest: #0b0b24;
+  --color-surface-bright: #373751;
+  --color-surface-variant: #32324d;
+  --color-on-surface: #e2dfff;
+  --color-on-surface-variant: #e4bdc3;
+  --color-outline: #ab888e;
+  --color-outline-variant: #5b3f44;
+  --color-primary-container: #ff4c83;
+  --color-on-primary-container: #5a0023;
+  --color-secondary-container: #24ffcd;
+  --color-secondary-fixed: #24ffcd;
+  --color-tertiary: #e3c630;
+  --color-error-container: #93000a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Neon Tokyo — Midnight Cyber Palette */
+  --background: #101129;
+  --foreground: #e2dfff;
+  
+  --card: #1d1d36;
+  --card-foreground: #e2dfff;
+  
+  --popover: #1d1d36;
+  --popover-foreground: #e2dfff;
+  
+  --primary: #ffb1c0;
+  --primary-foreground: #660029;
+  
+  --secondary: #32324d;
+  --secondary-foreground: #e2dfff;
+  
+  --muted: #191932;
+  --muted-foreground: #ab888e;
+  
+  --accent: #272741;
+  --accent-foreground: #e2dfff;
+  
+  --destructive: #ffb4ab;
+  --destructive-foreground: #690005;
+  
+  --border: #5b3f44;
+  --input: #5b3f44;
+  --ring: #ffb1c0;
+  
+  --success: #24ffcd;
+  --warning: #e3c630;
+  --error: #ffb4ab;
+
+  --chart-1: #ff4c83;
+  --chart-2: #24ffcd;
+  --chart-3: #e3c630;
+  --chart-4: #ffb1c0;
+  --chart-5: #00e0b3;
+  
+  --radius: 0.5rem;
+  
+  --sidebar: #0b0b24;
+  --sidebar-foreground: #e2dfff;
+  --sidebar-primary: #ffb1c0;
+  --sidebar-primary-foreground: #660029;
+  --sidebar-accent: #1d1d36;
+  --sidebar-accent-foreground: #e2dfff;
+  --sidebar-border: #5b3f44;
+  --sidebar-ring: #ffb1c0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
+  }
+  
+  html {
+    @apply font-sans antialiased;
+  }
+
+  /* Neon Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0b24;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 76, 131, 0.4);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 76, 131, 0.7);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ====================================
+   NEON TOKYO UTILITY CLASSES
+   ==================================== */
+
+/* Neon text glow effects */
+.neon-text-primary {
+  text-shadow: 0 0 8px currentColor;
+}
+.neon-text-secondary {
+  text-shadow: 0 0 8px #24ffcd;
+}
+.neon-text-tertiary {
+  text-shadow: 0 0 8px #e3c630;
+}
+
+/* Neon border glow effects */
+.neon-border-primary {
+  box-shadow: inset 0 0 12px rgba(255, 45, 120, 0.1);
+  border-color: rgba(255, 45, 120, 0.5);
+}
+.neon-border-secondary {
+  box-shadow: inset 0 0 12px rgba(0, 255, 204, 0.1);
+  border-color: rgba(0, 255, 204, 0.5);
+}
+.neon-border-tertiary {
+  box-shadow: inset 0 0 12px rgba(255, 224, 74, 0.1);
+  border-color: rgba(255, 224, 74, 0.5);
+}
+
+/* Neon hover glow effects */
+.neon-hover-primary:hover {
+  box-shadow: 0 0 16px rgba(255, 45, 120, 0.4);
+}
+.neon-hover-secondary:hover {
+  box-shadow: 0 0 16px rgba(0, 255, 204, 0.4);
+}
+
+/* Neon glow box shadow */
+.neon-glow {
+  box-shadow: 0 0 15px rgba(255, 76, 131, 0.3);
+}
+.neon-glow-cyan {
+  box-shadow: 0 0 15px rgba(36, 255, 205, 0.3);
+}
+.neon-glow-yellow {
+  box-shadow: 0 0 15px rgba(227, 198, 48, 0.3);
+}
+
+/* Scanline background effect */
+.scanline-bg {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.1)
+  );
+  background-size: 100% 4px;
+}
+
+/* Glass panel */
+.glass-panel {
+  backdrop-filter: blur(12px);
+  background: rgba(16, 17, 41, 0.7);
+}
+
+/* Font utilities */
+.font-headline {
+  font-family: var(--font-headline), 'Sora', sans-serif;
+}
+.font-label {
+  font-family: var(--font-label), 'Space Grotesk', sans-serif;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+/* Override shadcn badge for neon look */
+[data-slot="badge"] {
+  font-family: var(--font-label), 'Space Grotesk', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/* Override shadcn input for neon focus */
+input:focus, select:focus, textarea:focus {
+  border-color: #ffb1c0 !important;
+  box-shadow: 0 0 0 1px rgba(255, 177, 192, 0.3), inset 0 0 8px rgba(255, 45, 120, 0.1) !important;
 }

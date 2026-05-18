@@ -1,0 +1,1 @@
+export const ManagerEffectiveness = () => <div>ManagerEffectiveness</div>;

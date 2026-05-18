@@ -1,0 +1,1 @@
+export const CompletionHeatmap = () => <div>CompletionHeatmap</div>;

@@ -1,0 +1,1 @@
+export const GoalDistribution = () => <div>GoalDistribution</div>;
