@@ -34,12 +34,41 @@ export async function middleware(request: NextRequest) {
   const isEmployeeRoute = path.startsWith('/employee')
   const isManagerRoute = path.startsWith('/manager')
   const isAdminRoute = path.startsWith('/admin')
+  const demoRole = request.cookies.get('demo-role')?.value
 
   // Not logged in, trying to access protected route -> login
-  if (!user && (isEmployeeRoute || isManagerRoute || isAdminRoute)) {
+  if (!user && !demoRole && (isEmployeeRoute || isManagerRoute || isAdminRoute)) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
+  }
+
+  if (!user && demoRole) {
+    if (isAuthPage) {
+      const url = request.nextUrl.clone()
+      if (demoRole === 'employee') url.pathname = '/employee/goals'
+      else if (demoRole === 'manager') url.pathname = '/manager'
+      else if (demoRole === 'admin') url.pathname = '/admin'
+      return NextResponse.redirect(url)
+    }
+
+    if (isEmployeeRoute && demoRole !== 'employee') {
+      const url = request.nextUrl.clone()
+      url.pathname = demoRole === 'admin' ? '/admin' : '/manager'
+      return NextResponse.redirect(url)
+    }
+
+    if (isManagerRoute && demoRole !== 'manager') {
+      const url = request.nextUrl.clone()
+      url.pathname = demoRole === 'admin' ? '/admin' : '/employee/goals'
+      return NextResponse.redirect(url)
+    }
+
+    if (isAdminRoute && demoRole !== 'admin') {
+      const url = request.nextUrl.clone()
+      url.pathname = demoRole === 'manager' ? '/manager' : '/employee/goals'
+      return NextResponse.redirect(url)
+    }
   }
 
   // If logged in, we need their role for routing

@@ -1,6 +1,7 @@
 "use client"
 
 import { createClient } from "@/lib/supabase/client"
+import { clearDemoRole, setDemoRole } from "@/lib/demo/demoClient"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast, Toaster } from "sonner"
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    clearDemoRole()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
       toast.error(error.message)
@@ -32,15 +34,16 @@ export default function LoginPage() {
 
   const handleQuickLogin = async (demoEmail: string) => {
     setLoading(true)
-    const { error } = await supabase.auth.signInWithPassword({ email: demoEmail, password: "Demo@1234" })
-    if (error) {
-      toast.error("Demo login failed: " + error.message)
-      setLoading(false)
-      return
-    }
-    const { data: userData } = await supabase.from("users").select("role").eq("auth_id", (await supabase.auth.getUser()).data.user?.id).single()
-    if (userData?.role === "admin") router.push("/admin")
-    else if (userData?.role === "manager") router.push("/manager")
+    const role = demoEmail.startsWith("admin")
+      ? "admin"
+      : demoEmail.startsWith("manager")
+        ? "manager"
+        : "employee"
+
+    setDemoRole(role)
+    toast.success(`Demo mode: signed in as ${role}`)
+    if (role === "admin") router.push("/admin")
+    else if (role === "manager") router.push("/manager")
     else router.push("/employee/goals")
     router.refresh()
   }
