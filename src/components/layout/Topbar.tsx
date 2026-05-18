@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { NotificationBell } from "@/components/notifications/NotificationBell"
+import { DemoSwitcher } from "@/components/layout/DemoSwitcher"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const NAV_ITEMS: Record<string, { label: string; href: string; icon: string }[]> = {
@@ -103,10 +103,17 @@ export function Topbar() {
             />
           </div>
 
-          <button className="p-2 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 relative">
-            <span className="material-symbols-outlined text-primary">notifications</span>
-            <span className="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-background"></span>
-          </button>
+          {role && (
+            <DemoSwitcher role={role as "employee" | "manager" | "admin"} />
+          )}
+
+          {userId ? (
+            <NotificationBell userId={userId} />
+          ) : (
+            <button className="p-2 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 relative" aria-label="Notifications">
+              <span className="material-symbols-outlined text-primary">notifications</span>
+            </button>
+          )}
           
           <button className="p-2 rounded-lg hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 hidden sm:block">
             <span className="material-symbols-outlined text-primary">settings</span>

@@ -6,7 +6,9 @@ type DemoRole = "employee" | "manager" | "admin"
 type Row = Record<string, any>
 type Store = Record<string, Row[]>
 
+const DEMO_STORE_VERSION = "2026.05.shared-kpi"
 const STORAGE_KEY = "equilibrium-demo-store"
+const VERSION_KEY = "equilibrium-demo-store-version"
 const ROLE_KEY = "equilibrium-demo-role"
 
 const ids = {
@@ -40,11 +42,11 @@ function seedStore(): Store {
   ]
 
   const goalCycles = [
-    { id: ids.cycleGoal, year: 2025, phase: "goal_setting", phase_label: "Goal Setting - FY2025", window_open: "2025-05-01", window_close: "2025-06-30", is_active: true, created_at: now() },
-    { id: ids.cycleQ1, year: 2025, phase: "q1", phase_label: "Q1 Check-in - July 2025", window_open: "2025-07-01", window_close: "2025-07-31", is_active: true, created_at: now() },
-    { id: ids.cycleQ2, year: 2025, phase: "q2", phase_label: "Q2 Check-in - October 2025", window_open: "2025-10-01", window_close: "2025-10-31", is_active: false, created_at: now() },
-    { id: ids.cycleQ3, year: 2025, phase: "q3", phase_label: "Q3 Check-in - January 2026", window_open: "2026-01-01", window_close: "2026-01-31", is_active: false, created_at: now() },
-    { id: ids.cycleQ4, year: 2025, phase: "q4", phase_label: "Q4 / Annual - March-April 2026", window_open: "2026-03-01", window_close: "2026-04-30", is_active: false, created_at: now() },
+    { id: ids.cycleGoal, year: 2026, phase: "goal_setting", phase_label: "Goal Setting - FY2026", window_open: "2026-05-01", window_close: "2026-06-30", is_active: true, created_at: now() },
+    { id: ids.cycleQ1, year: 2026, phase: "q1", phase_label: "Q1 Check-in - July 2026", window_open: "2026-07-01", window_close: "2026-07-31", is_active: true, created_at: now() },
+    { id: ids.cycleQ2, year: 2026, phase: "q2", phase_label: "Q2 Check-in - October 2026", window_open: "2026-10-01", window_close: "2026-10-31", is_active: false, created_at: now() },
+    { id: ids.cycleQ3, year: 2026, phase: "q3", phase_label: "Q3 Check-in - January 2027", window_open: "2027-01-01", window_close: "2027-01-31", is_active: false, created_at: now() },
+    { id: ids.cycleQ4, year: 2026, phase: "q4", phase_label: "Q4 / Annual - March-April 2027", window_open: "2027-03-01", window_close: "2027-04-30", is_active: false, created_at: now() },
   ]
 
   const goals = [
@@ -52,15 +54,16 @@ function seedStore(): Store {
     { id: "goal-2", employee_id: ids.employee, cycle_id: ids.cycleGoal, thrust_area: "Customer Experience", title: "Maintain NPS Score Above 75", description: "Improve response quality and close feedback loops.", uom_type: "min_numeric", target: 75, target_date: null, weightage: 20, status: "approved", is_locked: true, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
     { id: "goal-3", employee_id: ids.employee, cycle_id: ids.cycleGoal, thrust_area: "Cost Optimisation", title: "Reduce Customer Acquisition Cost by 15%", description: "Lower paid acquisition dependency through referral and partner channels.", uom_type: "max_percent", target: 15, target_date: null, weightage: 20, status: "approved", is_locked: true, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
     { id: "goal-4", employee_id: ids.employee, cycle_id: ids.cycleGoal, thrust_area: "Safety & Compliance", title: "Zero Compliance Violations", description: "No policy breaches in customer data handling.", uom_type: "zero", target: 0, target_date: null, weightage: 15, status: "approved", is_locked: true, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
-    { id: "goal-5", employee_id: ids.employee, cycle_id: ids.cycleGoal, thrust_area: "Digital Transformation", title: "CRM Migration Completion", description: "Complete migration before the Q2 operating review.", uom_type: "timeline", target: null, target_date: "2025-09-30", weightage: 15, status: "approved", is_locked: true, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
+    { id: "goal-5", employee_id: ids.employee, cycle_id: ids.cycleGoal, thrust_area: "Digital Transformation", title: "CRM Migration Completion", description: "Complete migration before the Q2 operating review.", uom_type: "timeline", target: null, target_date: "2026-09-30", weightage: 15, status: "approved", is_locked: true, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
     { id: "goal-6", employee_id: ids.employee2, cycle_id: ids.cycleGoal, thrust_area: "Revenue Growth", title: "Grow channel revenue by INR 30L", description: "Expand distributor-led revenue in priority regions.", uom_type: "min_numeric", target: 3000000, target_date: null, weightage: 50, status: "submitted", is_locked: false, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee2, created_at: now(), updated_at: now() },
     { id: "goal-7", employee_id: ids.employee2, cycle_id: ids.cycleGoal, thrust_area: "Quality", title: "Reduce order defects below 2%", description: "Partner with operations on defect prevention.", uom_type: "max_percent", target: 2, target_date: null, weightage: 50, status: "submitted", is_locked: false, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee2, created_at: now(), updated_at: now() },
-    { id: "goal-8", employee_id: ids.employee3, cycle_id: ids.cycleGoal, thrust_area: "Innovation", title: "Launch self-serve analytics pilot", description: "Release pilot dashboards for two departments.", uom_type: "timeline", target: null, target_date: "2025-10-15", weightage: 60, status: "draft", is_locked: false, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee3, created_at: now(), updated_at: now() },
+    { id: "goal-8", employee_id: ids.employee3, cycle_id: ids.cycleGoal, thrust_area: "Innovation", title: "Launch self-serve analytics pilot", description: "Release pilot dashboards for two departments.", uom_type: "timeline", target: null, target_date: "2026-10-15", weightage: 60, status: "draft", is_locked: false, is_shared: false, shared_from_goal_id: null, primary_owner_id: ids.employee3, created_at: now(), updated_at: now() },
+    { id: "goal-9", employee_id: ids.employee3, cycle_id: ids.cycleGoal, thrust_area: "Customer Experience", title: "Maintain NPS Score Above 75", description: "Department KPI shared from Arjun Kumar. Recipient can adjust weightage only.", uom_type: "min_numeric", target: 75, target_date: null, weightage: 10, status: "draft", is_locked: false, is_shared: true, shared_from_goal_id: "goal-2", primary_owner_id: ids.employee, created_at: now(), updated_at: now() },
   ]
 
   const achievements = goals.slice(0, 5).map((goal, index) => {
     const actual = [2000000, 78, 5, 0, null][index]
-    const actualDate = index === 4 ? "2025-09-20" : "2025-07-15"
+    const actualDate = index === 4 ? "2026-09-20" : "2026-07-15"
     return {
       id: `ach-${index + 1}`,
       goal_id: goal.id,
@@ -107,9 +110,11 @@ function seedStore(): Store {
 
 function getStore(): Store {
   const raw = window.localStorage.getItem(STORAGE_KEY)
-  if (raw) return JSON.parse(raw)
+  const version = window.localStorage.getItem(VERSION_KEY)
+  if (raw && version === DEMO_STORE_VERSION) return JSON.parse(raw)
   const seeded = seedStore()
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded))
+  window.localStorage.setItem(VERSION_KEY, DEMO_STORE_VERSION)
   return seeded
 }
 
